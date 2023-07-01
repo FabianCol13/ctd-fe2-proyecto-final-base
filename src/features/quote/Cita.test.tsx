@@ -32,15 +32,12 @@ const validQueries = data.find((q) => q.character)
 const handlers = [
     rest.get(`${ API_URL }`, (req, res, ctx) => {
         const character = req.url.searchParams.get("character");
-
         if(character === null) {
             return res(ctx.json([data[1]]), ctx.delay(200));
         }
-
         if(validQueries) {
             return res(ctx.json([validQueries]));
         }
-
         return res(ctx.json([]), ctx.delay(200));
     })
 ];
@@ -64,7 +61,7 @@ describe('Cita', () => {
     })
 
     describe("Cuando se coloca un personaje y darle al btn de obtener cita ", () => {
-        it('Me debe dar la cita correspondiente al personaje buscado y al darl al brn de obtener cita', async () => {
+        it('Me debe dar la cita correspondiente al personaje buscado y al darle al boton de obtener cita', async () => {
             render( <Cita /> );
             const input = screen.getByRole("textbox", { name: "Author Cita" });
             const obtenerCitaButton = await screen.findByLabelText(/Obtener Cita/i);
@@ -77,14 +74,14 @@ describe('Cita', () => {
           });    
     })
 
-    describe("Cuando se le da al btn de borrar", () => {
-        it('Limpiar la cita y el personaje buscado cuando se le de al btn borrar', async () => {
+    describe("Cuando se le da al boton de borrar", () => {
+        it('Limpiar la cita y el personaje buscado cuando se le de al boton borrar', async () => {
             render( <Cita /> );
             const input = screen.getByRole("textbox", { name: "Author Cita" });
             const obtenerCitaButton = await screen.findByLabelText(/Obtener Cita/i);
             const borrarButton = screen.getByLabelText('Borrar');
             await userEvent.click(input);
-            await userEvent.keyboard("Homer Simpson")
+            await userEvent.keyboard("Homer ")
             userEvent.click(obtenerCitaButton);
             await waitFor(() => {
                 expect(screen.getByText("Oh, so they have Internet on computers now!")).toBeInTheDocument();
